@@ -26,6 +26,9 @@
     margin: 0; 
     padding: 0; 
   }
+
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  img { max-width: 100%; height: auto; }
  
   body { 
     background: var(--bg); 
@@ -34,8 +37,12 @@
     line-height: 1.45;
     overflow-x: hidden;
     width: 100%;
-    /* Visualização global ajustada a 80% */
-    zoom: 0.8;
+    /* Visualização ajustada a 80% só em telas grandes */
+    zoom: 1;
+  }
+
+  @media (min-width: 1025px) {
+    body { zoom: 0.8; }
   }
  
   a { 
@@ -152,7 +159,7 @@
  
   .agora-grid { 
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); 
     border: 2px solid var(--ink); 
   }
  
@@ -203,7 +210,7 @@
   /* Layout do Mural (Masonry vs Grid) */
   /* Modo Padrão: Masonry fluido para a aba "Tudo" */
   .posts-grid { 
-    column-count: 4; 
+    column-width: 270px; 
     column-gap: 1.2rem; 
     width: 100%;
   }
@@ -225,9 +232,9 @@
   /* Modo Grid Alternativo: Distribuição uniforme para as abas de Música/Filmes */
   .posts-grid.grid-mode {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
     gap: 1.2rem;
-    column-count: auto;
+    column-width: auto;
   }
  
   .posts-grid.grid-mode .post-card {
@@ -236,9 +243,11 @@
     margin-bottom: 0;
   }
  
-  .post-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 6px 6px 0px var(--ink);
+  @media (hover: hover) {
+    .post-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 6px 6px 0px var(--ink);
+    }
   }
  
   .post-card.hidden { display: none !important; }
@@ -285,8 +294,9 @@
     display: block; 
     width: 100%; 
     height: auto; 
-    max-height: 380px; 
+    aspect-ratio: 2 / 3;
     object-fit: cover; 
+    image-rendering: auto;
     background: var(--ink); 
     border-bottom: 2px solid var(--ink);
   }
@@ -313,23 +323,23 @@
   .footer-links a:hover { text-decoration: underline; }
  
   /* Responsividade */
-  @media (max-width: 1024px) { 
-    .posts-grid { column-count: 3; } 
-    .posts-grid.grid-mode { grid-template-columns: repeat(3, 1fr); }
-  }
- 
   @media (max-width: 768px) {
-    .posts-grid { column-count: 2; }
-    .posts-grid.grid-mode { grid-template-columns: repeat(2, 1fr); }
+    .posts-grid { column-gap: 1rem; }
+    .posts-grid.grid-mode { gap: 1rem; }
+    .post-card { margin-bottom: 1rem; }
+    .mono { font-size: .72rem; }
   }
- 
+
   @media (max-width: 600px) { 
     .topbar { flex-direction: column; align-items: flex-start; }
     .filter-tags { width: 100%; }
-    .filter-btn { flex: 1; text-align: center; }
-    .posts-grid { column-count: 1; } 
-    .posts-grid.grid-mode { grid-template-columns: 1fr; }
+    .filter-btn { flex: 1; text-align: center; padding: .7rem .6rem; min-height: 44px; }
+    .post-card { box-shadow: 3px 3px 0px var(--ink); }
     footer { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
   }
 </style>
  </head>
@@ -374,9 +384,9 @@
   <script>
   // ============ CONFIGURAÇÃO ============
   const CONFIG = {
-    lastfmUser: 'brokenjar',
-    lastfmKey: '1cf432489a731ca6e5861c53bfac6569',
     letterboxdUser: 'bichanasagaz',
+    // Cole aqui a URL do seu Worker (ex.: 'https://letterboxd.SEU-USUARIO.workers.dev')
+    workerUrl: 'https://letterboxd.mariaclaralpmoura.workers.dev/',
     filmsLimit: 4,
     albumsLimit: 4,
     artistsLimit: 8
@@ -413,6 +423,18 @@
     });
   });
  
+  // Troca a miniatura por uma versão grande; se não existir, cai na original.
+  function hiResLetterboxd(url) {
+    return url.replace(/-0-\d+-0-\d+-crop/, '-0-1000-0-1500-crop');
+  }
+  function hiResLastfm(url) {
+    return url.replace(/\/i\/u\/(?:\d+x\d+|avatar\d+s|\d+s)\//, '/i/u/770x0/');
+  }
+  const IMG_FALLBACK = "if(this.dataset.fb&&this.src!==this.dataset.fb){this.src=this.dataset.fb}";
+  function imgTag(cls, src, hi, alt) {
+    return `<img class="${cls}" src="${esc(hi)}" data-fb="${esc(src)}" onerror="${IMG_FALLBACK}" alt="${esc(alt)}" loading="lazy" decoding="async" referrerpolicy="no-referrer">`;
+  }
+
   function makeCard(className, category, html) {
     const el = document.createElement('article');
     el.className = `post-card ${className}`;
@@ -430,8 +452,10 @@
  
   // ---------- Last.fm ----------
   async function lfm(method, params = {}) {
-    const qs = new URLSearchParams({ method, user: CONFIG.lastfmUser, api_key: CONFIG.lastfmKey, format: 'json', ...params });
-    const r = await fetch('https://ws.audioscrobbler.com/2.0/?' + qs);
+    // A chave da API fica guardada no Worker, não aqui.
+    const qs = new URLSearchParams({ method, ...params });
+    const base = CONFIG.workerUrl.replace(/\/$/, '');
+    const r = await fetch(`${base}/lastfm?${qs}`);
     if (!r.ok) throw new Error('Last.fm HTTP ' + r.status);
     const j = await r.json();
     if (j.error) throw new Error(j.message);
@@ -439,8 +463,8 @@
   }
  
   async function loadLastfm() {
-    if (CONFIG.lastfmKey.startsWith('SUA_') || CONFIG.lastfmUser.startsWith('SEU_')) {
-      showNote('Last.fm', 'Preencha lastfmUser e lastfmKey no CONFIG do script.');
+    if (!CONFIG.workerUrl) {
+      showNote('Last.fm', 'Preencha workerUrl no CONFIG do script.');
       return;
     }
  
@@ -480,7 +504,7 @@
         const cover = big ? big['#text'] : '';
         return makeCard('art-card', 'musica', `
           ${cover
-            ? `<img class="poster cover" src="${esc(cover)}" alt="Capa de ${esc(a.name)}" loading="lazy" referrerpolicy="no-referrer">`
+            ? imgTag('poster cover', cover, hiResLastfm(cover), 'Capa de ' + a.name)
             : `<div class="art music" aria-hidden="true"></div>`}
           <div class="post-body">
             <div class="post-meta mono"><span>Música · Last.fm</span><span>${esc(a.playcount)} plays</span></div>
@@ -512,25 +536,80 @@
     };
   }
  
-  async function loadLetterboxd() {
+  // Busca o RSS direto (sem rss2json, que guarda cache por ~1h).
+  // Tenta vários proxies CORS ao mesmo tempo e usa o primeiro que responder.
+  async function fetchWithTimeout(url, ms = 7000) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), ms);
+    try {
+      const r = await fetch(url, { signal: ctrl.signal, cache: 'no-store' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.text();
+    } finally { clearTimeout(t); }
+  }
+
+  function parseRssXml(xmlText) {
+    const xml = new DOMParser().parseFromString(xmlText, 'text/xml');
+    if (xml.querySelector('parsererror') || !xml.querySelector('item')) throw new Error('RSS inválido');
+    const NS = 'https://letterboxd.com';
+    return [...xml.querySelectorAll('item')].map(it => {
+      const get = tag => (it.querySelector(tag) || {}).textContent || '';
+      const watched = (it.getElementsByTagNameNS('*', 'watchedDate')[0] || {}).textContent;
+      const pub = watched ? watched + 'T12:00:00' : new Date(get('pubDate')).toISOString();
+      return { title: get('title'), link: get('link'), description: get('description'), pubDate: pub };
+    });
+  }
+
+  async function fetchLetterboxdItems() {
+    // 1) Seu Worker da Cloudflare (mais rápido e confiável)
+    if (CONFIG.workerUrl) {
+      try {
+        return parseRssXml(await fetchWithTimeout(`${CONFIG.workerUrl}?_=${Date.now()}`, 6000));
+      } catch (e) { console.warn('Worker falhou, usando proxies:', e); }
+    }
+    // 2) Proxies públicos em paralelo
+    const feed = `https://letterboxd.com/${CONFIG.letterboxdUser}/rss/?_=${Date.now()}`;
+    const e = encodeURIComponent(feed);
+    const proxies = [
+      `https://corsproxy.io/?url=${e}`,
+      `https://api.allorigins.win/raw?url=${e}`,
+      `https://api.codetabs.com/v1/proxy?quest=${e}`
+    ];
+    try {
+      return await Promise.any(proxies.map(async u => parseRssXml(await fetchWithTimeout(u))));
+    } catch (_) {
+      // Último recurso: rss2json (pode estar atrasado)
+      const rss = encodeURIComponent(`https://letterboxd.com/${CONFIG.letterboxdUser}/rss/`);
+      const j = JSON.parse(await fetchWithTimeout(`https://api.rss2json.com/v1/api.json?rss_url=${rss}&t=${Date.now()}`));
+      if (j.status !== 'ok') throw new Error(j.message || 'rss2json falhou');
+      return j.items;
+    }
+  }
+
+  let lastFilmKey = '';
+  async function loadLetterboxd(silent = false) {
     if (CONFIG.letterboxdUser.startsWith('SEU_')) {
       showNote('Letterboxd', 'Preencha letterboxdUser no CONFIG do script.');
       return;
     }
     try {
-      const rss = encodeURIComponent(`https://letterboxd.com/${CONFIG.letterboxdUser}/rss/`);
-      const r = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rss}`);
-      const j = await r.json();
-      if (j.status !== 'ok') throw new Error(j.message || 'rss2json falhou');
-      const films = j.items.map(parseFilm).filter(Boolean).slice(0, CONFIG.filmsLimit);
-      if (!films.length) { showNote('Letterboxd', 'Nenhum filme encontrado no diário de ' + CONFIG.letterboxdUser + '.'); return; }
- 
+      const items = await fetchLetterboxdItems();
+      const films = items.map(parseFilm).filter(Boolean).slice(0, CONFIG.filmsLimit);
+      if (!films.length) { if (!silent) showNote('Letterboxd', 'Nenhum filme encontrado no diário de ' + CONFIG.letterboxdUser + '.'); return; }
+
+      // Só redesenha se algo mudou
+      const key = films.map(f => f.link + f.rating + f.review.length).join('|');
+      if (key === lastFilmKey) return;
+      lastFilmKey = key;
+
       $('#agora-film-label').textContent = 'Assistido por último';
       $('#agora-film-work').innerHTML = `${esc(films[0].title)}<br>${esc(films[0].year)}`;
- 
+
+      document.querySelectorAll('.post-card.film').forEach(c => c.remove());
+
       const cards = films.map(f => makeCard('art-card film', 'filmes', `
         ${f.poster
-          ? `<img class="poster" src="${esc(f.poster)}" alt="Pôster de ${esc(f.title)}" loading="lazy" referrerpolicy="no-referrer">`
+          ? imgTag('poster', f.poster, hiResLetterboxd(f.poster), 'Pôster de ' + f.title)
           : `<div class="art film" aria-hidden="true"></div>`}
         <div class="post-body">
           <div class="post-meta mono"><span>Filmes · Letterboxd</span><span>${isNaN(f.date) ? '' : fmtDate(f.date)}</span></div>
@@ -540,9 +619,13 @@
         </div>`));
       grid.prepend(...cards);
       applyFilter();
-    } catch (e) { console.warn('Letterboxd:', e); showNote('Letterboxd', 'Erro ao buscar o feed: ' + e.message); }
+    } catch (e) { console.warn('Letterboxd:', e); if (!silent) showNote('Letterboxd', 'Erro ao buscar o feed: ' + e.message); }
   }
- 
+
+  // Atualização automática: a cada 1 min (com Worker) ou 3 min, e ao voltar para a aba
+  setInterval(() => { if (!document.hidden) loadLetterboxd(true); }, (CONFIG.workerUrl ? 1 : 3) * 60 * 1000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) loadLetterboxd(true); });
+
   Promise.allSettled([loadLastfm(), loadLetterboxd()]).then(() => {
     if (!grid.children.length) grid.innerHTML = '<p class="mono">Nada para mostrar ainda. Confira o CONFIG no script.</p>';
   });
