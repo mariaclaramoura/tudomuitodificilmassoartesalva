@@ -155,3 +155,383 @@
   } 
   .agora-item:nth-child(1) .mono { 
     color: rgba(22, 20, 18, 0.7); 
+  } 
+   @media (min-width: 541px) { 
+    .agora-item:nth-child(1) {  
+      border-bottom: none;  
+      border-right: 2px solid var(--ink);  
+    } 
+  } 
+   /* Bloco 2: Fundo Preto / Texto Branco */ 
+  .agora-item:nth-child(2) {  
+    background: var(--ink);  
+    color: #ffffff; 
+  } 
+  .agora-item:nth-child(2) .mono { 
+    color: rgba(255, 255, 255, 0.7); 
+  } 
+   .agora-work {  
+    display: block;  
+    font-weight: 800;  
+    font-size: clamp(1rem, 2vw, 1.25rem);  
+    line-height: 1.2;  
+    letter-spacing: -.02em;  
+    word-break: break-word; 
+  } 
+   /* Layout do Mural (Masonry vs Grid) */ 
+  /* Modo Padrão: Masonry fluido para a aba "Tudo" */ 
+  .posts-grid {  
+    column-count: 4;  
+    column-gap: 1.2rem;  
+    width: 100%; 
+  } 
+   .post-card {  
+    break-inside: avoid;  
+    page-break-inside: avoid; 
+    -webkit-column-break-inside: avoid; 
+    display: inline-block; 
+    width: 100%; 
+    margin-bottom: 1.2rem;  
+    border: 2px solid var(--ink); 
+    background: var(--red); 
+    box-shadow: 4px 4px 0px var(--ink); 
+    transition: transform 0.2s ease, box-shadow 0.2s ease; 
+    overflow: hidden; 
+  } 
+   /* Modo Grid Alternativo: Distribuição uniforme para as abas de Música/Filmes */ 
+  .posts-grid.grid-mode { 
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 1.2rem; 
+    column-count: auto; 
+  } 
+   .posts-grid.grid-mode .post-card { 
+    display: flex; 
+    flex-direction: column; 
+    margin-bottom: 0; 
+  } 
+   .post-card:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 6px 6px 0px var(--ink); 
+  } 
+   .post-card.hidden { display: none !important; } 
+   .post-body {  
+    padding: 1.1rem;  
+    display: flex;  
+    flex-direction: column;  
+    gap: .6rem;  
+  } 
+   .post-meta {  
+    display: flex;  
+    justify-content: space-between;  
+    gap: .5rem;  
+    flex-wrap: wrap;  
+  } 
+   .post-title {  
+    font-weight: 800;  
+    font-size: 1.2rem;  
+    line-height: 1.15;  
+    letter-spacing: -.02em;  
+    word-break: break-word;  
+  } 
+   .post-content {  
+    font-size: .92rem;  
+    word-break: break-word;  
+    line-height: 1.4; 
+  } 
+   .art-card { background: var(--white); } 
+  .art-card .post-meta { color: var(--red); } 
+   .color-card { padding: 1.2rem; display: flex; flex-direction: column; gap: .8rem; } 
+  .note-card { background: var(--yellow); color: #fff; } 
+  .note-card .post-title { font-size: 1.35rem; } 
+  .list-card { background: var(--red); color: var(--white); } 
+  .post-list a:hover { text-decoration: underline; } 
+  .post-list { list-style: none; font-size: .95rem; display: grid; gap: .35rem; margin-top: .2rem; } 
+   .art-card img.poster {  
+    display: block;  
+    width: 100%;  
+    height: auto;  
+    max-height: 380px;  
+    object-fit: cover;  
+    background: var(--ink);  
+    border-bottom: 2px solid var(--ink); 
+  } 
+   
+  .art-card img.poster.cover {  
+    aspect-ratio: 1 / 1;  
+  } 
+   
+  .art-card .post-title a:hover { text-decoration: underline; } 
+   /* Rodapé */ 
+  footer {  
+    background: var(--ink);  
+    color: var(--bg);  
+    padding: 1.6rem var(--pad) 1.4rem;  
+    display: flex;  
+    justify-content: space-between;  
+    align-items: center;  
+    flex-wrap: wrap;  
+    gap: 1rem;  
+  } 
+   .footer-links { display: flex; gap: 1.1rem; flex-wrap: wrap; } 
+  .footer-links a:hover { text-decoration: underline; } 
+   /* Responsividade */ 
+  @media (max-width: 1024px) {  
+    .posts-grid { column-count: 3; }  
+    .posts-grid.grid-mode { grid-template-columns: repeat(3, 1fr); } 
+  } 
+   @media (max-width: 768px) { 
+    .posts-grid { column-count: 2; } 
+    .posts-grid.grid-mode { grid-template-columns: repeat(2, 1fr); } 
+  } 
+   @media (max-width: 600px) {  
+    .topbar { flex-direction: column; align-items: flex-start; } 
+    .filter-tags { width: 100%; } 
+    .filter-btn { flex: 1; text-align: center; } 
+    .posts-grid { column-count: 1; }  
+    .posts-grid.grid-mode { grid-template-columns: 1fr; } 
+    footer { flex-direction: column; align-items: flex-start; } 
+  }
+  </style> 
+</head> 
+<body> 
+  <header class="topbar"> 
+    <div class="brand"> 
+      <img src="spinosistrans.gif" alt="Libelinha" class="title-icon"> [marysdiary] 
+    </div> 
+    <nav class="filter-tags" aria-label="Filtrar posts"> 
+      <button class="filter-btn active" data-filter="tudo">Tudo</button> 
+      <button class="filter-btn" data-filter="musica">Música</button> 
+      <button class="filter-btn" data-filter="filmes">Filmes</button> 
+    </nav> 
+  </header> 
+  <section class="hero"> 
+    <div class="hero-text"> 
+      <span class="mono">Tentando Sobreviver · Dez/2026</span> 
+      <h1>tudomuitodifícilmassóaartesalva.</h1> 
+      <p class="presentation">tantacoisaqueoespaçonãocabe</p> 
+    </div> 
+  </section> 
+  <section class="agora"> 
+    <h2 class="mono section-label">Agora</h2> 
+    <div class="agora-grid"> 
+      <div class="agora-item"> 
+        <span class="mono" id="agora-music-label">Ouvindo</span> 
+        <span class="agora-work" id="agora-music-work">In Rainbows<br>Radiohead</span> 
+      </div> 
+      <div class="agora-item"> 
+        <span class="mono" id="agora-film-label">Assistindo</span> 
+        <span class="agora-work" id="agora-film-work">Perfect Days<br>Wim Wenders</span> 
+      </div> 
+    </div> 
+  </section> 
+  <section class="feed"> 
+    <h2 class="mono section-label">Posts recentes</h2> 
+    <main class="posts-grid"></main> 
+  </section> 
+  <footer> 
+    <div class="mono">qual é o dever de um rodapé? será que um site assim precisa de um rodapé? vamos tirar o rodapé? esse site não precisa de rodapé · 2026</div> 
+  </footer> 
+  <script> 
+  // ============ CONFIGURAÇÃO ============ 
+  const CONFIG = { 
+    lastfmUser: 'brokenjar', 
+    lastfmKey: '1cf432489a731ca6e5861c53bfac6569', 
+    letterboxdUser: 'bichanasagaz', 
+    filmsLimit: 4, 
+    albumsLimit: 4, 
+    artistsLimit: 8 
+  }; 
+  // ====================================== 
+
+  const $ = s => document.querySelector(s); 
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); 
+  const MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']; 
+  const fmtDate = d => `${String(d.getDate()).padStart(2,'0')} ${MESES[d.getMonth()]} ${d.getFullYear()}`; 
+  const grid = $('.posts-grid'); 
+  let currentFilter = 'tudo'; 
+
+  function applyFilter() { 
+    // Alterna a classe entre Masonry (aba Tudo) e Grid estruturado (Filtros individuais) 
+    if (currentFilter === 'tudo') { 
+      grid.classList.remove('grid-mode'); 
+    } else { 
+      grid.classList.add('grid-mode'); 
+    } 
+
+    document.querySelectorAll('.post-card').forEach(card => { 
+      const show = currentFilter === 'tudo' || card.dataset.category === currentFilter; 
+      card.classList.toggle('hidden', !show); 
+    }); 
+  } 
+
+  document.querySelectorAll('.filter-btn').forEach(button => { 
+    button.addEventListener('click', () => { 
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); 
+      button.classList.add('active'); 
+      currentFilter = button.dataset.filter; 
+      applyFilter(); 
+    }); 
+  }); 
+
+  function makeCard(className, category, html) { 
+    const el = document.createElement('article'); 
+    el.className = `post-card ${className}`; 
+    el.dataset.category = category; 
+    el.innerHTML = html; 
+    return el; 
+  } 
+
+  function showNote(source, msg) { 
+    grid.prepend(makeCard('color-card note-card', 'tudo', ` 
+      <div class="post-meta mono"><span>${esc(source)}</span><span>aviso</span></div> 
+      <p class="post-content">${esc(msg)}</p>`)); 
+    applyFilter(); 
+  } 
+
+  // ---------- Last.fm ---------- 
+  async function lfm(method, params = {}) { 
+    const qs = new URLSearchParams({ method, user: CONFIG.lastfmUser, api_key: CONFIG.lastfmKey, format: 'json', ...params }); 
+    const r = await fetch('https://ws.audioscrobbler.com/2.0/?' + qs); 
+    if (!r.ok) throw new Error('Last.fm HTTP ' + r.status); 
+    const j = await r.json(); 
+    if (j.error) throw new Error(j.message); 
+    return j; 
+  } 
+
+  async function loadLastfm() { 
+    if (CONFIG.lastfmKey.startsWith('SUA_') || CONFIG.lastfmUser.startsWith('SEU_')) { 
+      showNote('Last.fm', 'Preencha lastfmUser e lastfmKey no CONFIG do script.'); 
+      return; 
+    } 
+
+    try { 
+      const rt = await lfm('user.getrecenttracks', { limit: 1 }); 
+      const t = [].concat(rt.recenttracks.track)[0]; 
+      if (t) { 
+        const live = t['@attr'] && t['@attr'].nowplaying === 'true'; 
+        $('#agora-music-label').textContent = live ? 'Ouvindo agora' : 'Ouvido por último'; 
+        $('#agora-music-work').innerHTML = `${esc(t.name)}<br>${esc(t.artist['#text'])}`; 
+      } 
+    } catch (e) { console.warn('Last.fm (recentes):', e); showNote('Last.fm', 'Erro ao buscar a última faixa: ' + e.message); } 
+
+    try { 
+      const tr = await lfm('user.gettopartists', { period: '1month', limit: CONFIG.artistsLimit }); 
+      const artists = [].concat(tr.topartists.artist || []); 
+      if (artists.length) { 
+        const items = artists.map((a, i) => 
+          `<li>${i + 1}. <a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.name)}</a> <span style="opacity:.75">(${esc(a.playcount)}×)</span></li>` 
+        ).join(''); 
+        grid.prepend(makeCard('color-card list-card', 'musica', ` 
+          <div class="post-meta mono"><span>Last.fm</span><span>30 dias</span></div> 
+          <h3 class="post-title">Artistas mais ouvidos</h3> 
+          <ol class="post-list">${items}</ol>`)); 
+        applyFilter(); 
+      } 
+    } catch (e) { console.warn('Last.fm (artistas):', e); showNote('Last.fm', 'Erro ao buscar os artistas: ' + e.message); } 
+
+    try { 
+      const ta = await lfm('user.gettopalbums', { period: '1month', limit: CONFIG.albumsLimit }); 
+      const albums = [].concat(ta.topalbums.album || []); 
+      if (!albums.length) return; 
+      const PLACEHOLDER = '2a96cbd8b46e442fc41c2b86b821562f'; 
+      const cards = albums.map(a => { 
+        const imgs = a.image || []; 
+        const big = imgs.slice().reverse().find(i => i['#text'] && !i['#text'].includes(PLACEHOLDER)); 
+        const cover = big ? big['#text'] : ''; 
+        return makeCard('art-card', 'musica', ` 
+          ${cover 
+            ? `<img class="poster cover" src="${esc(cover)}" alt="Capa de ${esc(a.name)}" loading="lazy" referrerpolicy="no-referrer">` 
+            : `<div class="art music" aria-hidden="true"></div>`} 
+          <div class="post-body"> 
+            <div class="post-meta mono"><span>Música · Last.fm</span><span>${esc(a.playcount)} plays</span></div> 
+            <h3 class="post-title"><a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.name)}</a></h3> 
+            <p class="mono">${esc(a.artist.name)}</p> 
+          </div>`); 
+      }); 
+      grid.prepend(...cards); 
+      applyFilter(); 
+    } catch (e) { console.warn('Last.fm (álbuns):', e); showNote('Last.fm', 'Erro ao buscar os álbuns: ' + e.message); } 
+  } 
+
+  // ---------- Letterboxd ---------- 
+  async function loadLetterboxd() { 
+    if (CONFIG.letterboxdUser.startsWith('SEU_')) { 
+      showNote('Letterboxd', 'Preencha letterboxdUser no CONFIG do script.'); 
+      return; 
+    } 
+    try { 
+      const targetRss = `https://letterboxd.com/${CONFIG.letterboxdUser}/rss/?t=${Date.now()}`; 
+      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetRss)}`; 
+
+      const r = await fetch(proxyUrl); 
+      if (!r.ok) throw new Error('Falha na rede ao acessar o proxy'); 
+      const data = await r.json(); 
+      
+      const xmlDoc = new DOMParser().parseFromString(data.contents, "text/xml"); 
+      const items = Array.from(xmlDoc.querySelectorAll("item")).slice(0, CONFIG.filmsLimit); 
+
+      if (!items.length) {  
+        showNote('Letterboxd', 'Nenhum filme encontrado no diário de ' + CONFIG.letterboxdUser + '.');  
+        return;  
+      } 
+
+      const films = items.map(item => { 
+        const titleText = item.querySelector("title")?.textContent || ''; 
+        const descriptionText = item.querySelector("description")?.textContent || ''; 
+        const linkText = item.querySelector("link")?.textContent || ''; 
+        const pubDateText = item.querySelector("pubDate")?.textContent || ''; 
+
+        const m = titleText.match(/^(.*), (\d{4})(?: - (.*))?$/); 
+        if (!m) return null; 
+
+        const htmlDesc = new DOMParser().parseFromString(descriptionText, 'text/html'); 
+        const poster = htmlDesc.querySelector('img') ? htmlDesc.querySelector('img').src : ''; 
+        const review = [...htmlDesc.querySelectorAll('p')] 
+          .map(p => p.textContent.trim()) 
+          .filter(t => t && !/^Watched on/i.test(t)) 
+          .join(' '); 
+
+        const directFilmLink = linkText.replace(`letterboxd.com/${CONFIG.letterboxdUser}/film/`, 'letterboxd.com/film/'); 
+
+        return { 
+          title: m[1], 
+          year: m[2], 
+          rating: m[3] || '', 
+          poster, 
+          review, 
+          link: directFilmLink, 
+          date: new Date(pubDateText) 
+        }; 
+      }).filter(Boolean); 
+
+      if (films.length) { 
+        $('#agora-film-label').textContent = 'Assistido por último'; 
+        $('#agora-film-work').innerHTML = `${esc(films[0].title)}<br>${esc(films[0].year)}`; 
+
+        const cards = films.map(f => makeCard('art-card film', 'filmes', ` 
+          ${f.poster 
+            ? `<img class="poster" src="${esc(f.poster)}" alt="Pôster de ${esc(f.title)}" loading="lazy" referrerpolicy="no-referrer">` 
+            : `<div class="art film" aria-hidden="true"></div>`} 
+          <div class="post-body"> 
+            <div class="post-meta mono"><span>Filmes · Letterboxd</span><span>${isNaN(f.date) ? '' : fmtDate(f.date)}</span></div> 
+            <h3 class="post-title"><a href="${esc(f.link)}" target="_blank" rel="noopener">${esc(f.title)} <span style="font-weight:500">(${esc(f.year)})</span></a></h3> 
+            ${f.rating ? `<p class="mono">${esc(f.rating)}</p>` : ''} 
+            ${f.review ? `<p class="post-content">${esc(f.review.length > 220 ? f.review.slice(0, 220) + '…' : f.review)}</p>` : ''} 
+          </div>`)); 
+
+        grid.prepend(...cards); 
+        applyFilter(); 
+      } 
+    } catch (e) {  
+      console.warn('Letterboxd:', e);  
+      showNote('Letterboxd', 'Erro ao buscar o feed: ' + e.message);  
+    } 
+  } 
+
+  Promise.allSettled([loadLastfm(), loadLetterboxd()]).then(() => { 
+    if (!grid.children.length) grid.innerHTML = '<p class="mono">Nada para mostrar ainda. Confira o CONFIG no script.</p>'; 
+  }); 
+  </script> 
+</body> 
+</html>
