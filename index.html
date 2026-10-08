@@ -20,7 +20,13 @@
     --sans: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
     --mono: 'JetBrains Mono', 'Courier New', monospace;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  * { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+  }
+ 
   body { 
     background: var(--bg); 
     color: var(--ink); 
@@ -28,92 +34,281 @@
     line-height: 1.45;
     overflow-x: hidden;
     width: 100%;
+    /* Visualização global ajustada a 80% */
     zoom: 0.8;
   }
-  a { color: inherit; text-decoration: none; word-break: break-word; }
-  :focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
-  .mono { font-family: var(--mono); font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; }
+ 
+  a { 
+    color: inherit; 
+    text-decoration: none; 
+    word-break: break-word;
+  }
+ 
+  :focus-visible { 
+    outline: 3px solid var(--blue); 
+    outline-offset: 2px; 
+  }
+ 
+  .mono { 
+    font-family: var(--mono); 
+    font-size: .68rem; 
+    letter-spacing: .06em; 
+    text-transform: uppercase; 
+  }
  
   /* Topo */
   .topbar { 
-    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
-    padding: 1rem var(--pad); border-bottom: 3px solid var(--ink); 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    flex-wrap: wrap; 
+    gap: 1rem;
+    padding: 1rem var(--pad); 
+    border-bottom: 3px solid var(--ink); 
   }
-  .brand { display: flex; align-items: center; gap: .5rem; font-weight: 800; font-size: 1.05rem; letter-spacing: -.01em; }
-  .title-icon { width: 28px; height: auto; display: block; object-fit: contain; }
-  .filter-tags { display: flex; gap: .5rem; flex-wrap: wrap; }
+ 
+  .brand { 
+    display: flex; 
+    align-items: center; 
+    gap: .5rem; 
+    font-weight: 800; 
+    font-size: 1.05rem; 
+    letter-spacing: -.01em; 
+  }
+ 
+  .title-icon {
+    width: 28px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+ 
+  .filter-tags { 
+    display: flex; 
+    gap: .5rem; 
+    flex-wrap: wrap; 
+  }
+ 
   .filter-btn { 
-    background: var(--bg); border: 2px solid var(--ink); padding: .45rem .8rem; cursor: pointer;
-    font-family: var(--mono); font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; 
-    color: var(--ink); transition: background 0.15s ease, transform 0.1s ease;
+    background: var(--bg); 
+    border: 2px solid var(--ink); 
+    padding: .45rem .8rem; 
+    cursor: pointer;
+    font-family: var(--mono); 
+    font-size: .68rem; 
+    letter-spacing: .06em; 
+    text-transform: uppercase; 
+    color: var(--ink); 
+    transition: background 0.15s ease, transform 0.1s ease;
   }
+ 
   .filter-btn:hover { background: var(--yellow); color: #fff; }
   .filter-btn.active { background: var(--ink); color: var(--bg); }
  
   /* Hero */
-  .hero { display: block; border-bottom: 3px solid var(--ink); width: 100%; }
+  .hero { 
+    display: block; 
+    border-bottom: 3px solid var(--ink); 
+    width: 100%;
+  }
+ 
   .hero-text { 
     padding: clamp(2rem, 5vw, 3.5rem) var(--pad); 
-    display: flex; flex-direction: column; gap: 1.2rem; justify-content: center; align-items: center;
-    text-align: center; max-width: 1200px; margin: 0 auto;
+    display: flex; 
+    flex-direction: column; 
+    gap: 1.2rem; 
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
   }
+ 
   .hero h1 { 
-    font-weight: 900; font-size: clamp(2rem, 6vw, 4rem); line-height: 1; letter-spacing: -.03em; 
-    word-break: break-word; overflow-wrap: anywhere; text-align: center;
+    font-weight: 900; 
+    font-size: clamp(2rem, 6vw, 4rem); 
+    line-height: 1; 
+    letter-spacing: -.03em; 
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    text-align: center;
   }
-  .presentation { max-width: 32rem; font-size: clamp(0.95rem, 2vw, 1.15rem); word-break: break-word; }
+ 
+  .presentation { 
+    max-width: 32rem; 
+    font-size: clamp(0.95rem, 2vw, 1.15rem); 
+    word-break: break-word;
+  }
  
   /* Agora */
-  .agora, .feed { padding: 1.6rem var(--pad) 2.2rem; max-width: 1400px; margin: 0 auto; }
+  .agora, .feed { 
+    padding: 1.6rem var(--pad) 2.2rem; 
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
   .agora { border-bottom: 3px solid var(--ink); }
   .section-label { margin-bottom: 1.1rem; }
-  .agora-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); border: 2px solid var(--ink); }
-  .agora-item { padding: 1.2rem; min-height: 120px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-  .agora-item:nth-child(1) { background: #ffffff; color: var(--ink); border-bottom: 2px solid var(--ink); }
-  .agora-item:nth-child(1) .mono { color: rgba(22, 20, 18, 0.7); }
-  @media (min-width: 541px) {
-    .agora-item:nth-child(1) { border-bottom: none; border-right: 2px solid var(--ink); }
-  }
-  .agora-item:nth-child(2) { background: var(--ink); color: #ffffff; }
-  .agora-item:nth-child(2) .mono { color: rgba(255, 255, 255, 0.7); }
-  .agora-work { display: block; font-weight: 800; font-size: clamp(1rem, 2vw, 1.25rem); line-height: 1.2; letter-spacing: -.02em; word-break: break-word; }
  
-  /* Mural */
-  .posts-grid { column-count: 4; column-gap: 1.2rem; width: 100%; }
-  .post-card { 
-    break-inside: avoid; page-break-inside: avoid; -webkit-column-break-inside: avoid;
-    display: inline-block; width: 100%; margin-bottom: 1.2rem; 
-    border: 2px solid var(--ink); background: var(--red); box-shadow: 4px 4px 0px var(--ink);
-    transition: transform 0.2s ease, box-shadow 0.2s ease; overflow: hidden;
+  .agora-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+    border: 2px solid var(--ink); 
   }
-  .posts-grid.grid-mode { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; column-count: auto; }
-  .posts-grid.grid-mode .post-card { display: flex; flex-direction: column; margin-bottom: 0; }
-  .post-card:hover { transform: translateY(-2px); box-shadow: 6px 6px 0px var(--ink); }
+ 
+  .agora-item { 
+    padding: 1.2rem; 
+    min-height: 120px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    overflow: hidden;
+  }
+ 
+  /* Bloco 1: Fundo Branco / Texto Preto */
+  .agora-item:nth-child(1) { 
+    background: #ffffff; 
+    color: var(--ink);
+    border-bottom: 2px solid var(--ink); 
+  }
+  .agora-item:nth-child(1) .mono {
+    color: rgba(22, 20, 18, 0.7);
+  }
+ 
+  @media (min-width: 541px) {
+    .agora-item:nth-child(1) { 
+      border-bottom: none; 
+      border-right: 2px solid var(--ink); 
+    }
+  }
+ 
+  /* Bloco 2: Fundo Preto / Texto Branco */
+  .agora-item:nth-child(2) { 
+    background: var(--ink); 
+    color: #ffffff;
+  }
+  .agora-item:nth-child(2) .mono {
+    color: rgba(255, 255, 255, 0.7);
+  }
+ 
+  .agora-work { 
+    display: block; 
+    font-weight: 800; 
+    font-size: clamp(1rem, 2vw, 1.25rem); 
+    line-height: 1.2; 
+    letter-spacing: -.02em; 
+    word-break: break-word;
+  }
+ 
+  /* Layout do Mural (Masonry vs Grid) */
+  /* Modo Padrão: Masonry fluido para a aba "Tudo" */
+  .posts-grid { 
+    column-count: 4; 
+    column-gap: 1.2rem; 
+    width: 100%;
+  }
+ 
+  .post-card { 
+    break-inside: avoid; 
+    page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 1.2rem; 
+    border: 2px solid var(--ink);
+    background: var(--red);
+    box-shadow: 4px 4px 0px var(--ink);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+  }
+ 
+  /* Modo Grid Alternativo: Distribuição uniforme para as abas de Música/Filmes */
+  .posts-grid.grid-mode {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    column-count: auto;
+  }
+ 
+  .posts-grid.grid-mode .post-card {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+ 
+  .post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 6px 6px 0px var(--ink);
+  }
+ 
   .post-card.hidden { display: none !important; }
-  .post-body { padding: 1.1rem; display: flex; flex-direction: column; gap: .6rem; }
-  .post-meta { display: flex; justify-content: space-between; gap: .5rem; flex-wrap: wrap; }
-  .post-title { font-weight: 800; font-size: 1.2rem; line-height: 1.15; letter-spacing: -.02em; word-break: break-word; }
-  .post-content { font-size: .92rem; word-break: break-word; line-height: 1.4; }
+ 
+  .post-body { 
+    padding: 1.1rem; 
+    display: flex; 
+    flex-direction: column; 
+    gap: .6rem; 
+  }
+ 
+  .post-meta { 
+    display: flex; 
+    justify-content: space-between; 
+    gap: .5rem; 
+    flex-wrap: wrap; 
+  }
+ 
+  .post-title { 
+    font-weight: 800; 
+    font-size: 1.2rem; 
+    line-height: 1.15; 
+    letter-spacing: -.02em; 
+    word-break: break-word; 
+  }
+ 
+  .post-content { 
+    font-size: .92rem; 
+    word-break: break-word; 
+    line-height: 1.4;
+  }
+ 
   .art-card { background: var(--white); }
   .art-card .post-meta { color: var(--red); }
+ 
   .color-card { padding: 1.2rem; display: flex; flex-direction: column; gap: .8rem; }
   .note-card { background: var(--yellow); color: #fff; }
   .note-card .post-title { font-size: 1.35rem; }
   .list-card { background: var(--red); color: var(--white); }
   .post-list a:hover { text-decoration: underline; }
   .post-list { list-style: none; font-size: .95rem; display: grid; gap: .35rem; margin-top: .2rem; }
+ 
   .art-card img.poster { 
-    display: block; width: 100%; height: auto; max-height: 380px; object-fit: cover; 
-    background: var(--ink); border-bottom: 2px solid var(--ink);
+    display: block; 
+    width: 100%; 
+    height: auto; 
+    max-height: 380px; 
+    object-fit: cover; 
+    background: var(--ink); 
+    border-bottom: 2px solid var(--ink);
   }
-  .art-card img.poster.cover { aspect-ratio: 1 / 1; }
+  
+  .art-card img.poster.cover { 
+    aspect-ratio: 1 / 1; 
+  }
+  
   .art-card .post-title a:hover { text-decoration: underline; }
  
   /* Rodapé */
   footer { 
-    background: var(--ink); color: var(--bg); padding: 1.6rem var(--pad) 1.4rem; 
-    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; 
+    background: var(--ink); 
+    color: var(--bg); 
+    padding: 1.6rem var(--pad) 1.4rem; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    flex-wrap: wrap; 
+    gap: 1rem; 
   }
+ 
   .footer-links { display: flex; gap: 1.1rem; flex-wrap: wrap; }
   .footer-links a:hover { text-decoration: underline; }
  
@@ -122,10 +317,12 @@
     .posts-grid { column-count: 3; } 
     .posts-grid.grid-mode { grid-template-columns: repeat(3, 1fr); }
   }
+ 
   @media (max-width: 768px) {
     .posts-grid { column-count: 2; }
     .posts-grid.grid-mode { grid-template-columns: repeat(2, 1fr); }
   }
+ 
   @media (max-width: 600px) { 
     .topbar { flex-direction: column; align-items: flex-start; }
     .filter-tags { width: 100%; }
@@ -158,11 +355,11 @@
    <h2 class="mono section-label">Agora</h2>
    <div class="agora-grid">
     <div class="agora-item">
-     <span class="mono" id="agora-music-label">Ouvindo</span> <span class="agora-work" id="agora-music-work">In Rainbows 
+     <span class="mono" id="agora-music-label">Ouvindo</span> <span class="agora-work" id="agora-music-work">In Rainbows
       <br>Radiohead</span>
     </div>
     <div class="agora-item">
-     <span class="mono" id="agora-film-label">Assistindo</span> <span class="agora-work" id="agora-film-work">Perfect Days 
+     <span class="mono" id="agora-film-label">Assistindo</span> <span class="agora-work" id="agora-film-work">Perfect Days
       <br>Wim Wenders</span>
     </div>
    </div>
@@ -182,8 +379,7 @@
     letterboxdUser: 'bichanasagaz',
     filmsLimit: 4,
     albumsLimit: 4,
-    artistsLimit: 8,
-    refreshMinutes: 5   // atualização automática (0 = desligada)
+    artistsLimit: 8
   };
   // ======================================
  
@@ -191,21 +387,23 @@
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
   const fmtDate = d => `${String(d.getDate()).padStart(2,'0')} ${MESES[d.getMonth()]} ${d.getFullYear()}`;
-  // Pede versões maiores das imagens (Last.fm: original; Letterboxd: 600x900)
-  const hdCover = u => u ? u.replace(/\/i\/u\/[^/]+\//, '/i/u/') : u;
-  const hdPoster = u => u ? u.replace(/-0-\d+-0-\d+-crop/, '-0-600-0-900-crop') : u;
-  const fallbackImg = 'this.onerror=null;this.src=this.dataset.fb';
   const grid = $('.posts-grid');
   let currentFilter = 'tudo';
  
   function applyFilter() {
-    grid.classList.toggle('grid-mode', currentFilter !== 'tudo');
+    // Alterna a classe entre Masonry (aba Tudo) e Grid estruturado (Filtros individuais)
+    if (currentFilter === 'tudo') {
+      grid.classList.remove('grid-mode');
+    } else {
+      grid.classList.add('grid-mode');
+    }
+ 
     document.querySelectorAll('.post-card').forEach(card => {
       const show = currentFilter === 'tudo' || card.dataset.category === currentFilter;
       card.classList.toggle('hidden', !show);
     });
   }
- 
+  
   document.querySelectorAll('.filter-btn').forEach(button => {
     button.addEventListener('click', () => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -233,7 +431,7 @@
   // ---------- Last.fm ----------
   async function lfm(method, params = {}) {
     const qs = new URLSearchParams({ method, user: CONFIG.lastfmUser, api_key: CONFIG.lastfmKey, format: 'json', ...params });
-    const r = await fetch('https://ws.audioscrobbler.com/2.0/?' + qs, { cache: 'no-store' });
+    const r = await fetch('https://ws.audioscrobbler.com/2.0/?' + qs);
     if (!r.ok) throw new Error('Last.fm HTTP ' + r.status);
     const j = await r.json();
     if (j.error) throw new Error(j.message);
@@ -282,7 +480,7 @@
         const cover = big ? big['#text'] : '';
         return makeCard('art-card', 'musica', `
           ${cover
-            ? `<img class="poster cover" src="${esc(hdCover(cover))}" data-fb="${esc(cover)}" onerror="${fallbackImg}" alt="Capa de ${esc(a.name)}" loading="lazy" referrerpolicy="no-referrer">`
+            ? `<img class="poster cover" src="${esc(cover)}" alt="Capa de ${esc(a.name)}" loading="lazy" referrerpolicy="no-referrer">`
             : `<div class="art music" aria-hidden="true"></div>`}
           <div class="post-body">
             <div class="post-meta mono"><span>Música · Last.fm</span><span>${esc(a.playcount)} plays</span></div>
@@ -296,36 +494,6 @@
   }
  
   // ---------- Letterboxd ----------
-  // Busca o RSS direto (sem rss2json, que guarda cache) via proxies CORS com fallback
-  async function fetchLetterboxdRSS() {
-    const url = `https://letterboxd.com/${CONFIG.letterboxdUser}/rss/?t=${Date.now()}`;
-    const proxies = [
-      u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-      u => `https://corsproxy.io/?${encodeURIComponent(u)}`
-    ];
-    let lastErr;
-    for (const p of proxies) {
-      try {
-        const r = await fetch(p(url), { cache: 'no-store' });
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        const text = await r.text();
-        if (!text.includes('<item')) throw new Error('RSS vazio ou inválido');
-        return text;
-      } catch (e) { lastErr = e; }
-    }
-    throw lastErr;
-  }
- 
-  function parseRSS(xmlText) {
-    const xml = new DOMParser().parseFromString(xmlText, 'text/xml');
-    return [...xml.querySelectorAll('item')].map(it => ({
-      title: it.querySelector('title')?.textContent || '',
-      link: it.querySelector('link')?.textContent || '',
-      pubDate: it.querySelector('pubDate')?.textContent || '',
-      description: it.querySelector('description')?.textContent || ''
-    }));
-  }
- 
   function parseFilm(item) {
     const m = item.title.match(/^(.*), (\d{4})(?: - (.*))?$/);
     if (!m) return null;
@@ -335,12 +503,12 @@
       .map(p => p.textContent.trim())
       .filter(t => t && !/^Watched on/i.test(t))
       .join(' ');
- 
+    
     const directFilmLink = (item.link || '').replace(`letterboxd.com/${CONFIG.letterboxdUser}/film/`, 'letterboxd.com/film/');
  
     return {
       title: m[1], year: m[2], rating: m[3] || '', poster, review,
-      link: directFilmLink, date: new Date(item.pubDate)
+      link: directFilmLink, date: new Date(String(item.pubDate).replace(' ', 'T'))
     };
   }
  
@@ -350,8 +518,11 @@
       return;
     }
     try {
-      const items = parseRSS(await fetchLetterboxdRSS());
-      const films = items.map(parseFilm).filter(Boolean).slice(0, CONFIG.filmsLimit);
+      const rss = encodeURIComponent(`https://letterboxd.com/${CONFIG.letterboxdUser}/rss/`);
+      const r = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rss}`);
+      const j = await r.json();
+      if (j.status !== 'ok') throw new Error(j.message || 'rss2json falhou');
+      const films = j.items.map(parseFilm).filter(Boolean).slice(0, CONFIG.filmsLimit);
       if (!films.length) { showNote('Letterboxd', 'Nenhum filme encontrado no diário de ' + CONFIG.letterboxdUser + '.'); return; }
  
       $('#agora-film-label').textContent = 'Assistido por último';
@@ -359,7 +530,7 @@
  
       const cards = films.map(f => makeCard('art-card film', 'filmes', `
         ${f.poster
-          ? `<img class="poster" src="${esc(hdPoster(f.poster))}" data-fb="${esc(f.poster)}" onerror="${fallbackImg}" alt="Pôster de ${esc(f.title)}" loading="lazy" referrerpolicy="no-referrer">`
+          ? `<img class="poster" src="${esc(f.poster)}" alt="Pôster de ${esc(f.title)}" loading="lazy" referrerpolicy="no-referrer">`
           : `<div class="art film" aria-hidden="true"></div>`}
         <div class="post-body">
           <div class="post-meta mono"><span>Filmes · Letterboxd</span><span>${isNaN(f.date) ? '' : fmtDate(f.date)}</span></div>
@@ -372,28 +543,9 @@
     } catch (e) { console.warn('Letterboxd:', e); showNote('Letterboxd', 'Erro ao buscar o feed: ' + e.message); }
   }
  
-  // ---------- Carregamento + atualização automática ----------
-  function loadAll() {
-    return Promise.allSettled([loadLastfm(), loadLetterboxd()]).then(() => {
-      if (!grid.children.length) grid.innerHTML = '<p class="mono">Nada para mostrar ainda. Confira o CONFIG no script.</p>';
-    });
-  }
- 
-  let loading = false;
-  async function refresh() {
-    if (loading) return;
-    loading = true;
-    // Carrega primeiro, remove os cards antigos só depois (evita a tela piscar vazia)
-    const old = [...grid.children];
-    await loadAll();
-    old.forEach(el => el.remove());
-    loading = false;
-  }
- 
-  refresh();
-  if (CONFIG.refreshMinutes > 0) {
-    setInterval(refresh, CONFIG.refreshMinutes * 60 * 1000);
-  }
+  Promise.allSettled([loadLastfm(), loadLetterboxd()]).then(() => {
+    if (!grid.children.length) grid.innerHTML = '<p class="mono">Nada para mostrar ainda. Confira o CONFIG no script.</p>';
+  });
 </script>
  </body>
 </html>
