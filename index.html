@@ -2,7 +2,7 @@
 <html lang="pt-BR">
  <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Maria's Diary · Tentando sobreviver.</title>
   <link rel="icon" type="image/gif" href="spinosistrans.gif">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +27,7 @@
     padding: 0; 
   }
 
-  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
   img { max-width: 100%; height: auto; }
  
   body { 
@@ -109,7 +109,7 @@
     transition: background 0.15s ease, transform 0.1s ease;
   }
  
-  .filter-btn:hover { background: var(--yellow); color: #fff; }
+  @media (hover: hover) { .filter-btn:hover { background: var(--yellow); color: #fff; } }
   .filter-btn.active { background: var(--ink); color: var(--bg); }
  
   /* Hero */
@@ -235,6 +235,7 @@
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
     gap: 1.2rem;
     column-width: auto;
+    align-items: start; /* cards com a altura do próprio conteúdo, sem esticar */
   }
  
   .posts-grid.grid-mode .post-card {
@@ -307,6 +308,30 @@
   
   .art-card .post-title a:hover { text-decoration: underline; }
  
+  .history-list { list-style: none; display: grid; font-size: .95rem; margin-top: .2rem; }
+  .history-list li { display: flex; align-items: center; gap: .75rem; padding: .55rem 0; border-top: 1px dashed currentColor; }
+  .history-list li:first-child { border-top: none; }
+  .history-list .track { min-width: 0; flex: 1; }
+  .history-list .track a { font-weight: 700; }
+  .history-list .track a:hover { text-decoration: underline; }
+  .history-list .track span { display: block; opacity: .75; font-size: .85rem; }
+  .history-list .when { white-space: nowrap; opacity: .75; }
+  .history-list .live { font-weight: 700; opacity: 1; }
+ 
+  .history-list .thumb { flex: none; width: 44px; height: 44px; border: 2px solid var(--ink); object-fit: cover; background: var(--ink); display: block; }
+  .history-list .thumb.empty { display: grid; place-items: center; color: var(--bg); font-size: 1.1rem; }
+  .history-list li.is-live .track a::before { content: '● '; color: var(--bg); }
+
+  .rank-list { list-style: none; display: grid; gap: .85rem; margin-top: .3rem; }
+  .rank-list li { display: grid; grid-template-columns: 1.7rem 1fr auto; column-gap: .6rem; align-items: baseline; }
+  .rank-list .n { font-family: var(--mono); font-size: .68rem; opacity: .6; }
+  .rank-list a { font-weight: 700; overflow-wrap: anywhere; }
+  .rank-list a:hover { text-decoration: underline; }
+  .rank-list .c { font-family: var(--mono); font-size: .68rem; opacity: .75; white-space: nowrap; }
+  .rank-list .bar { grid-column: 2 / 4; height: 5px; margin-top: .35rem; background: rgba(81, 90, 37, .16); }
+  .rank-list .bar i { display: block; height: 100%; background: currentColor; }
+  .rank-list li:first-child .bar i { background: var(--bg); }
+ 
   /* Rodapé */
   footer { 
     background: var(--ink); 
@@ -338,6 +363,70 @@
     footer { flex-direction: column; align-items: flex-start; }
   }
 
+  /* ============ Responsividade extra ============ */
+  .agora-work, .post-title, .history-list .track { overflow-wrap: anywhere; }
+
+  /* Respeita o notch / barras do celular */
+  .topbar, footer {
+    padding-left: max(var(--pad), env(safe-area-inset-left));
+    padding-right: max(var(--pad), env(safe-area-inset-right));
+  }
+  .agora, .feed, .hero-text {
+    padding-left: max(var(--pad), env(safe-area-inset-left));
+    padding-right: max(var(--pad), env(safe-area-inset-right));
+  }
+  footer { padding-bottom: max(1.4rem, env(safe-area-inset-bottom)); }
+
+  /* Telas muito grandes */
+  @media (min-width: 1500px) {
+    .agora, .feed { max-width: 1600px; }
+    .posts-grid { column-width: 300px; }
+    .posts-grid.grid-mode { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+  }
+
+  /* Tablets e celulares grandes: 2 colunas mais compactas */
+  @media (min-width: 480px) and (max-width: 768px) {
+    .posts-grid { column-width: 210px; }
+    .posts-grid.grid-mode { grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); }
+  }
+
+  /* Dispositivos de toque: alvos de clique confortáveis */
+  @media (pointer: coarse) {
+    .filter-btn { min-height: 44px; }
+    .history-list li { padding: .65rem 0; }
+  }
+
+  /* Celulares */
+  @media (max-width: 600px) {
+    .topbar { gap: .8rem; padding-top: .8rem; padding-bottom: .8rem; }
+    .hero-text { gap: .9rem; padding-top: 1.8rem; padding-bottom: 2rem; }
+    .agora, .feed { padding-top: 1.2rem; padding-bottom: 1.6rem; }
+    .agora-item { min-height: 96px; padding: 1rem; }
+    .post-body { padding: .95rem; }
+    .history-list li { gap: .6rem; }
+    .post-meta { gap: .3rem; }
+  }
+
+  /* Celulares pequenos */
+  @media (max-width: 380px) {
+    :root { --pad: .85rem; }
+    .brand { font-size: .95rem; }
+    .filter-btn { padding: .6rem .3rem; letter-spacing: .03em; font-size: .64rem; }
+    .post-title { font-size: 1.05rem; }
+    .note-card .post-title { font-size: 1.15rem; }
+    .post-content, .history-list { font-size: .88rem; }
+    .history-list .track span { font-size: .8rem; }
+    .history-list .when { font-size: .62rem; }
+    .history-list .thumb { width: 38px; height: 38px; }
+    .mono { font-size: .64rem; }
+  }
+
+  /* Celular deitado (pouca altura) */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .hero-text { padding-top: 1.2rem; padding-bottom: 1.2rem; }
+    .agora-item { min-height: 80px; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
   }
@@ -356,7 +445,7 @@
   </header>
   <section class="hero">
    <div class="hero-text">
-    <span class="mono">Tentando Sobreviver · Dez/2026</span>
+    <span class="mono">Tentando Sobreviver</span>
     <h1>tudomuitodifícilmassóaartesalva.</h1>
     <p class="presentation">tantacoisaqueoespaçonãocabe</p>
    </div>
@@ -389,7 +478,9 @@
     workerUrl: 'https://letterboxd.mariaclaralpmoura.workers.dev/',
     filmsLimit: 4,
     albumsLimit: 4,
-    artistsLimit: 8
+    artistsLimit: 8,
+    historyLimit: 10,
+    filmsHistoryLimit: 10
   };
   // ======================================
  
@@ -462,33 +553,84 @@
     return j;
   }
  
+  // Tempo relativo em português ("há 5 min")
+  function timeAgo(uts) {
+    const diff = Math.max(0, Math.floor(Date.now() / 1000) - Number(uts));
+    if (diff < 60) return 'agora há pouco';
+    const min = Math.floor(diff / 60);
+    if (min < 60) return `há ${min} min`;
+    const h = Math.floor(min / 60);
+    if (h < 24) return `há ${h} h`;
+    const d = Math.floor(h / 24);
+    return `há ${d} d`;
+  }
+
+  // Última faixa (bloco "Agora") + histórico das últimas músicas
+  async function loadRecent(silent = false) {
+    try {
+      const rt = await lfm('user.getrecenttracks', { limit: CONFIG.historyLimit });
+      const tracks = [].concat(rt.recenttracks.track || []).slice(0, CONFIG.historyLimit);
+      if (!tracks.length) return;
+
+      const t = tracks[0];
+      const live = t['@attr'] && t['@attr'].nowplaying === 'true';
+      $('#agora-music-label').textContent = live ? 'Ouvindo agora' : 'Ouvido por último';
+      $('#agora-music-work').innerHTML = `${esc(t.name)}<br>${esc(t.artist['#text'] || t.artist.name)}`;
+
+      const PH = '2a96cbd8b46e442fc41c2b86b821562f';
+      const items = tracks.map(tr => {
+        const isLive = tr['@attr'] && tr['@attr'].nowplaying === 'true';
+        const when = isLive ? '<span class="when live">agora</span>'
+          : `<span class="when">${tr.date ? esc(timeAgo(tr.date.uts)) : ''}</span>`;
+        const img = (tr.image || []).slice().reverse().find(i => i['#text'] && !i['#text'].includes(PH));
+        const thumb = img
+          ? `<img class="thumb" src="${esc(img['#text'])}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">`
+          : `<div class="thumb empty" aria-hidden="true">♪</div>`;
+        return `<li class="${isLive ? 'is-live' : ''}">
+          ${thumb}
+          <div class="track"><a href="${esc(tr.url)}" target="_blank" rel="noopener">${esc(tr.name)}</a>
+            <span>${esc(tr.artist['#text'] || tr.artist.name)}</span></div>
+          ${when}
+        </li>`;
+      }).join('');
+
+      const card = makeCard('color-card list-card history-card', 'musica', `
+        <div class="post-meta mono"><span>Last.fm</span><span>Últimas ${tracks.length}</span></div>
+        <h3 class="post-title">Histórico recente</h3>
+        <ul class="history-list">${items}</ul>`);
+
+      const old = document.querySelector('.history-card');
+      if (old) old.replaceWith(card); else grid.prepend(card);
+      applyFilter();
+    } catch (e) {
+      console.warn('Last.fm (recentes):', e);
+      if (!silent) showNote('Last.fm', 'Erro ao buscar o histórico: ' + e.message);
+    }
+  }
+
   async function loadLastfm() {
     if (!CONFIG.workerUrl) {
       showNote('Last.fm', 'Preencha workerUrl no CONFIG do script.');
       return;
     }
  
-    try {
-      const rt = await lfm('user.getrecenttracks', { limit: 1 });
-      const t = [].concat(rt.recenttracks.track)[0];
-      if (t) {
-        const live = t['@attr'] && t['@attr'].nowplaying === 'true';
-        $('#agora-music-label').textContent = live ? 'Ouvindo agora' : 'Ouvido por último';
-        $('#agora-music-work').innerHTML = `${esc(t.name)}<br>${esc(t.artist['#text'])}`;
-      }
-    } catch (e) { console.warn('Last.fm (recentes):', e); showNote('Last.fm', 'Erro ao buscar a última faixa: ' + e.message); }
+    await loadRecent();
  
     try {
       const tr = await lfm('user.gettopartists', { period: '1month', limit: CONFIG.artistsLimit });
       const artists = [].concat(tr.topartists.artist || []);
       if (artists.length) {
-        const items = artists.map((a, i) =>
-          `<li>${i + 1}. <a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.name)}</a> <span style="opacity:.75">(${esc(a.playcount)}×)</span></li>`
-        ).join('');
+        const max = Math.max(...artists.map(a => Number(a.playcount) || 0), 1);
+        const items = artists.map((a, i) => `<li>
+            <span class="n">${String(i + 1).padStart(2, '0')}</span>
+            <a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.name)}</a>
+            <span class="c">${esc(a.playcount)}×</span>
+            <div class="bar" aria-hidden="true"><i style="width:${Math.round((Number(a.playcount) || 0) / max * 100)}%"></i></div>
+          </li>`).join('');
         grid.prepend(makeCard('color-card list-card', 'musica', `
           <div class="post-meta mono"><span>Last.fm</span><span>30 dias</span></div>
           <h3 class="post-title">Artistas mais ouvidos</h3>
-          <ol class="post-list">${items}</ol>`));
+          <ul class="rank-list">${items}</ul>`));
         applyFilter();
       }
     } catch (e) { console.warn('Last.fm (artistas):', e); showNote('Last.fm', 'Erro ao buscar os artistas: ' + e.message); }
@@ -594,11 +736,13 @@
     }
     try {
       const items = await fetchLetterboxdItems();
-      const films = items.map(parseFilm).filter(Boolean).slice(0, CONFIG.filmsLimit);
+      const allFilms = items.map(parseFilm).filter(Boolean);
+      const films = allFilms.slice(0, CONFIG.filmsLimit);
+      const filmHistory = allFilms.slice(0, CONFIG.filmsHistoryLimit);
       if (!films.length) { if (!silent) showNote('Letterboxd', 'Nenhum filme encontrado no diário de ' + CONFIG.letterboxdUser + '.'); return; }
 
       // Só redesenha se algo mudou
-      const key = films.map(f => f.link + f.rating + f.review.length).join('|');
+      const key = filmHistory.map(f => f.link + f.rating + f.review.length + f.date).join('|');
       if (key === lastFilmKey) return;
       lastFilmKey = key;
 
@@ -617,6 +761,17 @@
           ${f.rating ? `<p class="mono">${esc(f.rating)}</p>` : ''}
           ${f.review ? `<p class="post-content">${esc(f.review.length > 220 ? f.review.slice(0, 220) + '…' : f.review)}</p>` : ''}
         </div>`));
+      // Histórico dos últimos filmes assistidos
+      const histItems = filmHistory.map(f => `<li>
+          <div class="track"><a href="${esc(f.link)}" target="_blank" rel="noopener">${esc(f.title)}</a>
+            <span>${esc(f.year)}${f.rating ? ' · ' + esc(f.rating) : ''}</span></div>
+          <span class="when">${isNaN(f.date) ? '' : esc(fmtDate(f.date))}</span>
+        </li>`).join('');
+      cards.push(makeCard('color-card list-card film', 'filmes', `
+        <div class="post-meta mono"><span>Letterboxd</span><span>Últimos ${filmHistory.length}</span></div>
+        <h3 class="post-title">Histórico de filmes</h3>
+        <ul class="history-list">${histItems}</ul>`));
+
       grid.prepend(...cards);
       applyFilter();
     } catch (e) { console.warn('Letterboxd:', e); if (!silent) showNote('Letterboxd', 'Erro ao buscar o feed: ' + e.message); }
@@ -625,6 +780,10 @@
   // Atualização automática: a cada 1 min (com Worker) ou 3 min, e ao voltar para a aba
   setInterval(() => { if (!document.hidden) loadLetterboxd(true); }, (CONFIG.workerUrl ? 1 : 3) * 60 * 1000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) loadLetterboxd(true); });
+
+  // Atualiza o histórico a cada minuto e ao voltar para a aba
+  setInterval(() => { if (!document.hidden && CONFIG.workerUrl) loadRecent(true); }, 60 * 1000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && CONFIG.workerUrl) loadRecent(true); });
 
   Promise.allSettled([loadLastfm(), loadLetterboxd()]).then(() => {
     if (!grid.children.length) grid.innerHTML = '<p class="mono">Nada para mostrar ainda. Confira o CONFIG no script.</p>';
